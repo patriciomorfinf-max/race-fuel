@@ -1,21 +1,3 @@
-const EXTRACTION_PROMPT = `You extract structured endurance-race nutrition
-planning fields from a free-text description an athlete writes about their race
-and body. Respond with ONLY a JSON object, no prose, no markdown fences...
-
-{
-  "sport": "run" | "bike" | "triathlon" | null,
-  "duration_min": number | null,
-  "weight_kg": number | null,
-  "carb_target_g_h": number | null,
-  "sodium_target_mg_h": number | null,
-  "context_note": string
-}
-
-Rules:
-- If the athlete does not mention or imply a field, its value MUST be null.
-- Base carb/sodium suggestions on established endurance nutrition guidelines.
-- Be conservative: only suggest a target when there's a reasonable basis for it.`;
-
 export default function DocsPage() {
   return (
     <main className="mx-auto max-w-3xl flex-1 px-6 py-16">
@@ -30,15 +12,34 @@ export default function DocsPage() {
           Prompt library — Core extraction (Week 1)
         </h2>
         <p className="mt-2 text-sm text-slate-400">
-          This is the exact system prompt used to turn an athlete&apos;s free-text
-          race description into structured nutrition targets on the{" "}
+          The{" "}
           <a href="/core" className="text-orange-400 underline">
             /core
           </a>{" "}
-          page.
+          page uses a{" "}
+          <strong className="text-slate-200">simulated, rule-based extraction</strong>{" "}
+          this week — not a real AI model call — so it runs for free with no
+          API key required. It is labeled &quot;Simulated&quot; directly on the
+          output card, per course rules.
         </p>
-        <pre className="mt-4 overflow-x-auto rounded-lg border border-slate-800 bg-slate-900/50 p-4 text-xs text-slate-300">
-          {EXTRACTION_PROMPT}
+        <p className="mt-4 text-sm text-slate-400">The exact rules used:</p>
+        <pre className="mt-2 overflow-x-auto rounded-lg border border-slate-800 bg-slate-900/50 p-4 text-xs text-slate-300">
+{`Sport detection:
+  "triathlon" / "ironman" / "70.3" / "half iron"  -> triathlon
+  "bike" / "cycling" / "cyclist"                  -> bike
+  "run" / "running" / "marathon" / "5k" / "10k"    -> run
+
+Weight: regex match for "NN kg" or "NN lbs" (converted to kg)
+
+Duration: regex match for "H:MM", "N hours", or "N minutes";
+  falls back to a typical duration for the detected sport if
+  nothing is stated (flagged in the note as an estimate)
+
+Carb target:  60 g/h by default, 75 g/h if sweat/cramping mentioned
+Sodium target: 500 mg/h by default, 800 mg/h if sweat/cramping mentioned
+
+Sweat/cramping signal words: "cramp", "heavy sweat", "sweat a lot",
+  "hot weather", "heat", "humid"`}
         </pre>
       </section>
     </main>
