@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const extraction = await extractCore(description);
+    const extraction = extractCore(description);
     return NextResponse.json({ extraction });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
