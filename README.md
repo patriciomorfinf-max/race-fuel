@@ -1,29 +1,28 @@
 # Race Fuel
 
 Nutrition planning for endurance athletes — running, cycling and triathlon.
-Race Fuel turns your weight, race duration and nutrition targets into a
-precise, hour-by-hour fueling plan.
 
-## Week 0 — Setup Sprint (current scope)
+## Week 1 — Generative Core Agent (current scope)
 
-This week only ships the base infrastructure:
+This week adds the "generative core": a live `/core` page where an athlete
+describes their race and body in free text. An AI-powered extraction step
+(Anthropic API) turns that into structured fields — sport, duration, weight,
+carb target, sodium target — with a short rationale note. The result is
+saved to Supabase and shown in a "Recent extractions" list.
 
-- Homepage with hero section
-- Navbar (Home, Docs)
-- Footer
-- `/docs` placeholder page
-- Supabase client connection (evidence only — no database schema yet)
-
-The fueling calculator, product catalog, auth and saved plans are **out of
-scope this week** and will be built in a future release.
+**Out of scope this week:**
+- The full hour-by-hour fueling timeline calculation
+- Product selection
+- Authentication
+- Editing or deleting saved extractions
 
 ## Getting started
 
 ### Requirements
 
-- [Node.js](https://nodejs.org) 18 or later
-- npm (comes with Node.js)
+- [Node.js](https://nodejs.org) 18+
 - A free [Supabase](https://supabase.com) project
+- An [Anthropic API key](https://console.anthropic.com)
 
 ### 1. Install dependencies
 
@@ -33,36 +32,39 @@ npm install
 
 ### 2. Set up environment variables
 
-Copy `.env.example` to `.env.local` and fill in your Supabase project values
-(found in Supabase Dashboard → Project Settings → API):
-
 ```bash
 cp .env.example .env.local
 ```
 
-```
-NEXT_PUBLIC_SUPABASE_URL=your-project-url-here
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-```
+Fill in:
+- `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase
+  Dashboard → Project Settings → API
+- `ANTHROPIC_API_KEY` — console.anthropic.com (server-side only)
 
-### 3. Run locally
+### 3. Set up the database
+
+Run `supabase/migrations/0001_create_submissions.sql` (if not already run
+from Week 0) and `supabase/migrations/0002_create_core_outputs.sql` in the
+Supabase SQL editor.
+
+### 4. Run locally
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-### 4. Deploy
+### 5. Deploy
 
-This project deploys to [Vercel](https://vercel.com). Connect the GitHub
-repo to a new Vercel project and add the same environment variables from
-`.env.example` in the Vercel dashboard (Project Settings → Environment
-Variables).
+Deploys to [Vercel](https://vercel.com). Add all three environment
+variables in the Vercel dashboard (Project Settings → Environment
+Variables) — `ANTHROPIC_API_KEY` must NOT have the `NEXT_PUBLIC_` prefix.
 
 ## Tech stack
 
 - [Next.js 14 (App Router)](https://nextjs.org) + TypeScript
 - [Tailwind CSS](https://tailwindcss.com)
-- [Supabase](https://supabase.com) (Auth + Postgres — connection only this week)
+- [Supabase](https://supabase.com) (Postgres)
+- [Anthropic API](https://docs.claude.com) (core extraction)
 - [Vercel](https://vercel.com) for deployment
