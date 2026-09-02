@@ -130,7 +130,12 @@ export default function CorePage() {
 
       {result && (
         <div className="mt-8 rounded-xl border border-slate-800 bg-slate-900/40 p-6">
-          <h2 className="font-semibold text-white">Extracted result</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="font-semibold text-white">Extracted result</h2>
+            <span className="rounded-full border border-amber-600/40 bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-400">
+              Simulated
+            </span>
+          </div>
           <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
             <div>
               <dt className="text-slate-500">Sport</dt>
