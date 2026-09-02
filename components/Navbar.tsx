@@ -14,6 +14,9 @@ export default function Navbar() {
           <Link href="/" className="transition hover:text-white">
             Home
           </Link>
+          <Link href="/core" className="transition hover:text-white">
+            Core
+          </Link>
           <Link href="/docs" className="transition hover:text-white">
             Docs
           </Link>
