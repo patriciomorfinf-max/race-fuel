@@ -1,7 +1,8 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="flex-1">
-      {/* Hero */}
       <section className="mx-auto flex max-w-5xl flex-col items-center px-6 py-24 text-center">
         <span className="mb-5 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1 text-sm font-medium text-orange-400">
           For runners, cyclists &amp; triathletes
@@ -15,40 +16,34 @@ export default function Home() {
           already carry.
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <button
-            disabled
-            className="cursor-not-allowed rounded-lg bg-orange-500/50 px-6 py-3 font-semibold text-slate-950"
-            title="Coming soon"
+          <Link
+            href="/core"
+            className="rounded-lg bg-orange-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-orange-400"
           >
-            Build my fueling plan
-          </button>
-          <a
+            Describe your race
+          </Link>
+          <Link
             href="/docs"
             className="rounded-lg border border-slate-700 px-6 py-3 font-semibold text-slate-200 transition hover:border-slate-500"
           >
             Read the docs
-          </a>
+          </Link>
         </div>
-        <p className="mt-4 text-xs text-slate-500">
-          The fueling calculator is coming in a future release. This week: core
-          infrastructure.
-        </p>
       </section>
 
-      {/* Feature preview cards */}
       <section className="mx-auto grid max-w-5xl gap-6 px-6 pb-24 sm:grid-cols-3">
         {[
           {
-            title: "Athlete & Race",
-            desc: "Enter your weight, discipline and race duration.",
+            title: "Describe your race",
+            desc: "Tell us about your race and body in your own words.",
           },
           {
-            title: "Nutrition Goals",
-            desc: "Set your carb, sodium and fluid targets per hour.",
+            title: "AI extraction",
+            desc: "We turn that into structured nutrition targets.",
           },
           {
             title: "Your Fueling Plan",
-            desc: "Get a minute-by-minute timeline of what to consume.",
+            desc: "A full hour-by-hour plan is coming in a future release.",
           },
         ].map((f) => (
           <div
