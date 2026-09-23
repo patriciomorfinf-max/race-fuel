@@ -2,68 +2,47 @@
 
 Nutrition planning for endurance athletes — running, cycling and triathlon.
 
-## Week 1 — Generative Core Agent (current scope)
+## Week 2 — Research + Benchmarking Dashboard (current scope)
 
-This week adds the "generative core": a live `/core` page where an athlete
-describes their race and body in free text. A **simulated, rule-based**
-extraction step (no paid API required) turns that into structured fields —
-sport, duration, weight, carb target, sodium target — with a short rationale
-note. The output is clearly labeled "Simulated" on the page and documented
-in `/docs`. The result is saved to Supabase and shown in a "Recent
-extractions" list.
+This week adds `/research`: a live Yes/No poll asking visitors whether
+they've struggled to know what/how much to fuel during a race (saved to
+Supabase, with a live tally), plus a hand-researched, cited table of 8
+real competitors/substitutes (global + Mexico/LatAm) compared against
+Race Fuel on instant/free/no-signup/uses-your-products, and a gap-analysis
+summary.
 
-**Out of scope this week:**
-- The full hour-by-hour fueling timeline calculation
-- Product selection
-- Authentication
-- Editing or deleting saved extractions
+**Out of scope this week:** automated competitor scraping, a quantitative
+TAM/SAM/SOM market model, and user accounts to prevent duplicate votes
+(this is a directional signal, not a scientific survey).
 
 ## Getting started
 
-### Requirements
-
-- [Node.js](https://nodejs.org) 18+
-- A free [Supabase](https://supabase.com) project
-
 ### 1. Install dependencies
-
 ```bash
 npm install
 ```
 
 ### 2. Set up environment variables
-
 ```bash
 cp .env.example .env.local
 ```
-
 Fill in `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` from
-Supabase Dashboard → Project Settings → API. No other keys are needed this
-week — extraction is rule-based, not a live AI call.
+Supabase Dashboard → Project Settings → API.
 
 ### 3. Set up the database
-
-Run `supabase/migrations/0001_create_submissions.sql` (if not already run
-from Week 0) and `supabase/migrations/0002_create_core_outputs.sql` in the
-Supabase SQL editor.
+Run, in order, in the Supabase SQL editor:
+- `supabase/migrations/0001_create_submissions.sql`
+- `supabase/migrations/0002_create_core_outputs.sql`
+- `supabase/migrations/0003_create_research_signals.sql`
 
 ### 4. Run locally
-
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
 ### 5. Deploy
-
-Deploys to [Vercel](https://vercel.com). Add the two Supabase environment
-variables in the Vercel dashboard (Project Settings → Environment
-Variables).
+Deploys to Vercel. Add the two Supabase environment variables in the
+Vercel dashboard (Project Settings → Environment Variables).
 
 ## Tech stack
-
-- [Next.js 14 (App Router)](https://nextjs.org) + TypeScript
-- [Tailwind CSS](https://tailwindcss.com)
-- [Supabase](https://supabase.com) (Postgres)
-- [Vercel](https://vercel.com) for deployment
+Next.js 14 (App Router) + TypeScript + Tailwind CSS + Supabase (Postgres) + Vercel.
