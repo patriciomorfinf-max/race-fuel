@@ -11,15 +11,10 @@ export default function Navbar() {
           <span className="text-lg font-semibold text-white">Race Fuel</span>
         </Link>
         <div className="flex items-center gap-6 text-sm font-medium text-slate-300">
-          <Link href="/" className="transition hover:text-white">
-            Home
-          </Link>
-          <Link href="/core" className="transition hover:text-white">
-            Core
-          </Link>
-          <Link href="/docs" className="transition hover:text-white">
-            Docs
-          </Link>
+          <Link href="/" className="transition hover:text-white">Home</Link>
+          <Link href="/core" className="transition hover:text-white">Core</Link>
+          <Link href="/research" className="transition hover:text-white">Research</Link>
+          <Link href="/docs" className="transition hover:text-white">Docs</Link>
         </div>
       </nav>
     </header>
