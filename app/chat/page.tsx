@@ -83,9 +83,22 @@ export default function ChatPage() {
             >
               <p>{m.text}</p>
               {m.role === "bot" && i > 0 && (
-                <div className="mt-1 flex gap-2">
-                  <button onClick={() => rate(i, "up")} className={`text-xs ${m.rating === "up" ? "text-emerald-400" : "text-slate-500 hover:text-slate-300"}`}>👍</button>
-                  <button onClick={() => rate(i, "down")} className={`text-xs ${m.rating === "down" ? "text-red-400" : "text-slate-500 hover:text-slate-300"}`}>👎</button>
+                <div className="mt-2 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => rate(i, "up")}
+                    className={`rounded-md border px-2 py-1 text-xs ${m.rating === "up" ? "border-emerald-400 bg-emerald-500/20 text-emerald-300" : "border-slate-600 text-slate-300 hover:border-slate-400"}`}
+                  >
+                    👍
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => rate(i, "down")}
+                    className={`rounded-md border px-2 py-1 text-xs ${m.rating === "down" ? "border-red-400 bg-red-500/20 text-red-300" : "border-slate-600 text-slate-300 hover:border-slate-400"}`}
+                  >
+                    👎
+                  </button>
+                  {m.rating && <span className="text-xs text-slate-400">Thanks for the feedback!</span>}
                 </div>
               )}
             </div>
