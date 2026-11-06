@@ -16,13 +16,19 @@ export const intakeQuestions = [
 
 const GUARDRAIL_KEYWORDS = [
   "diagnos", "prescri", "medication", "medicamento", "dosage", "dosis",
-  "injury", "lesión", "chest pain", "dolor de pecho", "symptom", "síntoma",
+  "injur", "lesión", "chest pain", "dolor de pecho", "symptom", "síntoma",
   "disease", "enfermedad", "treat my", "cure", "cura",
 ];
 
+// Match keywords only at the start of a word, so "cure" does not fire on "secure"
+// and "cura" does not fire on "accurate". Prefixes like "diagnos" still match "diagnose".
+const GUARDRAIL_REGEX = new RegExp(
+  `(?<![\\p{L}])(?:${GUARDRAIL_KEYWORDS.join("|")})`,
+  "iu"
+);
+
 export function needsGuardrail(message: string): boolean {
-  const lower = message.toLowerCase();
-  return GUARDRAIL_KEYWORDS.some((k) => lower.includes(k));
+  return GUARDRAIL_REGEX.test(message);
 }
 
 export const guardrailResponse =
