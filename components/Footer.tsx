@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="border-t border-slate-800 bg-slate-950">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-slate-400 sm:flex-row">
         <p>© {new Date().getFullYear()} Race Fuel. Built for endurance athletes.</p>
-        <p className="text-slate-500">Setup Sprint — Week 0</p>
+        <p className="text-slate-500">Simulated AI outputs · Not medical advice</p>
       </div>
     </footer>
   );
