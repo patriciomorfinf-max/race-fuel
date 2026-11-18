@@ -37,6 +37,51 @@ export const guardrailResponse =
 export const humanCheckpoint =
   "Simulated assistant — rule-based responses, not a real AI model. This is not medical advice; always consult a professional for health or injury questions.";
 
+// Week 6 change (from tester feedback): carb and sodium answers used to be one
+// generic number / a very wide range for everyone. They now use the intake answers
+// (duration and experience) to give a narrower, explained starting point.
+export function parseHours(duration: string): number | null {
+  const m = duration.match(/\d+(?:[.,]\d+)?/);
+  if (!m) return null;
+  const h = parseFloat(m[0].replace(",", "."));
+  return Number.isFinite(h) && h > 0 ? h : null;
+}
+
+export function isFirstTimer(experience: string): boolean {
+  return /first/i.test(experience) && !/\b(not|isn't|n't|never)\b/i.test(experience);
+}
+
+export function carbAdvice(intake: IntakeAnswers): string {
+  const hours = parseHours(intake.duration);
+  const label = `${intake.duration || "multi"}-hour ${intake.sport || "race"}`;
+  const tail = " This is a general starting point, not a prescription — /core can tailor it to your race.";
+
+  if (hours === null) {
+    return `Most endurance athletes start around 30-60g of carbs per hour for long efforts.${tail}`;
+  }
+  if (hours < 1) {
+    return `For a ${label}, you usually don't need to fuel during the effort. Water, and at most 0-30g of carbs per hour, is enough.${tail}`;
+  }
+  if (hours <= 2.5) {
+    return `For a ${label}, aim for about 30-60g of carbs per hour.${tail}`;
+  }
+  if (isFirstTimer(intake.experience)) {
+    return `For a ${label} and your first time at this distance, start near 60g of carbs per hour. Higher intakes (up to 90g) need gut training, so don't try them for the first time on race day.${tail}`;
+  }
+  return `For a ${label}, a trained athlete can aim for 60-90g of carbs per hour. Use the lower end if you have never practiced that intake in training.${tail}`;
+}
+
+export function sodiumAdvice(intake: IntakeAnswers): string {
+  const hours = parseHours(intake.duration);
+  const base =
+    "A good starting point is about 500mg of sodium per hour. Go toward 600-700mg if it is hot or you sweat heavily (salt marks on your clothes), and toward 300-400mg if it is cool or you sweat lightly.";
+  const total =
+    hours !== null && hours >= 3
+      ? ` Over ${hours} hours that is roughly ${Math.round(hours * 500)}mg in total, and sodium from your drinks and food counts toward it.`
+      : "";
+  return `${base}${total} Sweat rates differ a lot between people, so treat it as a starting point and adjust in training.`;
+}
+
 export function generateResponse(message: string, intake: IntakeAnswers): string {
   if (needsGuardrail(message)) {
     return guardrailResponse;
@@ -45,10 +90,10 @@ export function generateResponse(message: string, intake: IntakeAnswers): string
   const lower = message.toLowerCase();
 
   if (lower.includes("carb") || lower.includes("gel")) {
-    return `For a ${intake.duration || "multi"}-hour ${intake.sport || "race"}, most athletes target around 60g of carbs per hour. Try our /core page to get a number tailored to your race.`;
+    return carbAdvice(intake);
   }
   if (lower.includes("sodium") || lower.includes("salt") || lower.includes("cramp")) {
-    return "Sodium needs vary a lot by sweat rate, but 400-700mg/hour is a common starting range for most athletes. /core can give you a starting estimate based on your weight.";
+    return sodiumAdvice(intake);
   }
   if (lower.includes("water") || lower.includes("fluid") || lower.includes("drink")) {
     return "A common starting point is 500-800ml of fluid per hour, adjusted for heat and your own sweat rate. Check /core for a personalized number.";
