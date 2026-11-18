@@ -59,6 +59,9 @@ export default function Home() {
         <Link href="/chat" className="text-sm font-semibold text-orange-400 hover:text-orange-300">
           Have a question? Chat with our guided assistant →
         </Link>
+        <p className="mt-3 text-sm text-slate-500">
+          New here? <Link href="/demo" className="font-semibold text-orange-400 hover:text-orange-300">Take the 5-minute guided demo →</Link>
+        </p>
       </section>
     </main>
   );
