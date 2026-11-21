@@ -39,8 +39,24 @@ export const externalTests: ExternalTest[] = [
     issue: "The sodium answer gives a wide range (400-700 mg/hour).",
     status: "done",
   },
-  { id: 4, tester: "Tester 4", task: "Walk through /demo", whatHappened: "", rating: null, issue: "", status: "pending" },
-  { id: 5, tester: "Tester 5", task: "Walk through /demo", whatHappened: "", rating: null, issue: "", status: "pending" },
+  {
+    id: 4,
+    tester: "Tester 4 (triathlon coach)",
+    task: "Describe a 70.3 Ironman and ask how many carbs to take per hour.",
+    whatHappened: "It gave me the exact amount.",
+    rating: 3,
+    issue: "Sometimes it starts repeating answers and is not very personalized.",
+    status: "done",
+  },
+  {
+    id: 5,
+    tester: "Tester 5 (half-marathon runner)",
+    task: "Describe a half marathon and say that she sweats a lot; ask how much to take.",
+    whatHappened: "It gave me the exact answer I wanted to know.",
+    rating: 5,
+    issue: "None found.",
+    status: "done",
+  },
 ];
 
 export const changeFromFeedback = {
